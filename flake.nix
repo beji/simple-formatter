@@ -2,7 +2,7 @@
   description = "Description for the project";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
     # for the development shell, as the name suggests
     devshell.url = "github:numtide/devshell";
     # allows filtering files from the sources, prevents rebuilts if, for example, the flake.nix changes
