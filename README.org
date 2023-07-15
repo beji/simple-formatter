@@ -1,14 +1,14 @@
-# Simple Formatter
+* Simple Formatter
 
 This is a rather basic file formatting tool based on [[https://jqlang.github.io/jq/][jq]], [[https://jqlang.github.io/jq/][yq]] and [[https://www.gnu.org/software/make/][GNU Make]] that can be used to format YAML and JSON files.
 Both tools have to be installed for this to actually work.
 
-# Installation
+* Installation
 
 - Grab the [[./simple-formatter.sh][simple-formatter.sh]] from this repo and place it somewhere
 - Make sure that =make=, =jq= and =yq= are installed and available in the =PATH=
 
-# Usage
+* Usage
 
 #+begin_src sh :results output code
 ./simple-formatter.sh --help 2>&1
@@ -31,12 +31,12 @@ Debug output can be enabled by setting the DEBUG environment variable to 1
 
 #+end_src
 
-# How does this work?
+* How does this work?
 
 The bash script uses Makes parallel execution to increase performance. It will create a Makefile with the help of =mktemp= and then call that with the files given to it.
 
 The makefile will then generate a temporary file for every file to be formatted, run jq/yq on the input file and write the output to the temporary file. It will then move the temporary file to the input file, overriding it in the process.
 
-# Can I influence the formatting in any way?
+* Can I influence the formatting in any way?
 
 nope
