@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 if [ -n "$DEBUG" ]; then
 	DEBUGFLAG="x"
@@ -8,10 +8,46 @@ fi
 
 set -eo"${DEBUGFLAG}" pipefail
 
-source ./ff-util.sh
+TEMPFILE=$(mktemp)
 
+function finish {
+	rm -rf $TEMPFILE
+}
+trap finish EXIT
 
-JOBS=$(nproc --all)
-log_verbose "Using $JOBS threads"
+cat >$TEMPFILE <<EOL
 
-make -f fancyformatter.mk --always-make --jobs=$JOBS "$@"
+quiet = quiet_
+Q = @
+
+ifdef DEBUG
+  quiet =
+  Q =
+endif
+
+%.json:
+	\$(Q)echo Formatting \$@
+	-\$(Q)TEMPFILE=\$\$(mktemp) && \
+	 jq -r '.' < \$@ > \$\$TEMPFILE && \
+	 mv \$\$TEMPFILE \$@ && \
+	 rm -rf \$\$TEMPFILE
+%.yaml:
+	\$(Q)echo Formatting \$@
+	-\$(Q)TEMPFILE=\$\$(mktemp) && \
+	 yq -P < \$@ > \$\$TEMPFILE && \
+	 mv \$\$TEMPFILE \$@ && \
+	 rm -rf \$\$TEMPFILE
+%.yml:
+	\$(Q)echo Formatting \$@
+	-\$(Q)TEMPFILE=\$\$(mktemp) && \
+	 yq -P < \$@ > \$\$TEMPFILE && \
+	 mv \$\$TEMPFILE \$@ && \
+	 rm -rf \$\$TEMPFILE
+EOL
+if [ -z "$JOBS" ]; then
+	JOBS=$(nproc --all)
+fi
+
+make -f $TEMPFILE --always-make --jobs=$JOBS DEBUG=$DEBUG "$@"
+
+finish
