@@ -13,7 +13,7 @@ else
 	DEBUGFLAG=""
 fi
 
-set -euo"${DEBUGFLAG}" pipefail
+set -eo"${DEBUGFLAG}" pipefail
 
 source ./ff-util.sh
 
