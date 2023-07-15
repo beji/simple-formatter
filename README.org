@@ -10,17 +10,11 @@ Both tools have to be installed for this to actually work.
 
 * Usage
 
-#+begin_src sh :results output code
-./simple-formatter.sh --help 2>&1
-#+end_src
-
-#+RESULTS:
-#+begin_src sh
 Pass at least one file that should be formatted
-./simple-formatter.sh ./a/folder/some.json
+=simple-formatter.sh ./a/folder/some.json=
 
 It will also accept glob patterns like
-./simple-formatter.sh /some/folder/*
+=simple-formatter.sh /some/folder/*=
 
 This currently handles JSON & YAML, with the help of JQ and YQ.
 
@@ -28,8 +22,6 @@ The number of parallel jobs can be influenced with the JOBS environment variable
 It will default to whatever "nproc --all" returns.
 
 Debug output can be enabled by setting the DEBUG environment variable to 1
-
-#+end_src
 
 * How does this work?
 
