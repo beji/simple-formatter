@@ -16,12 +16,18 @@ $0 ./a/folder/some.json
 It will also accept glob patterns like
 $0 /some/folder/*
 
-This currently handles JSON & YAML, with the help of JQ and YQ
+This currently handles JSON & YAML, with the help of JQ and YQ.
+
+The number of parallel jobs can be influenced with the JOBS environment variable.
+It will default to whatever "nproc --all" returns.
+
+Debug output can be enabled by setting the DEBUG environment variable to 1
+
 EOF
 }
 
 function check-command {
-	if ! command -v $@ &> /dev/null
+    if ! command -v $@ &> /dev/null
 then
     >&2 echo "$@ could not be found but is required for this to work"
     exit 1
@@ -29,9 +35,9 @@ fi
 }
 
 if [ $# -eq 0 ]; then
-	>&2 echo "No files to format given"
-	help
-	exit 1
+    >&2 echo "No files to format given"
+    help
+    exit 1
 fi
 
 if [ "$1" = "--help" ]; then
