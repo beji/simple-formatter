@@ -21,7 +21,7 @@ INFILE=$1
 log_verbose "Running $0 on $INFILE"
 log "Formatting $INFILE"
 
-cat $INFILE | jq -r '.' > $TEMPFILE
+jq -r '.' < $INFILE > $TEMPFILE
 mv $TEMPFILE $INFILE
 
 finish
