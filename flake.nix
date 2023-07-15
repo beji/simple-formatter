@@ -2,7 +2,7 @@
   # description = "Description for the project";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
     # for the development shell, as the name suggests
     devshell.url = "github:numtide/devshell";
     # allows filtering files from the sources, prevents rebuilts if, for example, the flake.nix changes
@@ -86,6 +86,23 @@
         #   {
         #     inherit (config.dream2nix.outputs.frontend.packages) frontend;
         #   };
+
+        packages.default = pkgs.stdenv.mkDerivation {
+          pname = "simple-formatter";
+          version = "1.0.0";
+          src = ./.;
+          buildInputs = [ pkgs.jq pkgs.yq-go pkgs.gnumake ];
+          nativeBuildInputs = [ pkgs.makeWrapper ];
+          installPhase =
+              ''
+                mkdir -p $out/bin
+                cp simple-formatter.sh $out/bin/simple-formatter.sh
+                wrapProgram $out/bin/simple-formatter.sh \
+                  --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.jq pkgs.yq-go pkgs.gnumake ]}
+              ''
+          ;
+        };
+
 
         # overlays can be defined here
         # see https://flake.parts/overlays.html
