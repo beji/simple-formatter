@@ -101,7 +101,7 @@
         # };
 
         # packages for devshell can be defined here
-        devshells.default = { packages = with pkgs; [ ]; };
+        devshells.default = { packages = with pkgs; [ jq yq ]; };
 
       };
 
