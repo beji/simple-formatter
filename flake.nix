@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
+    flake-parts.url = "github:hercules-ci/flake-parts";
     # for the development shell, as the name suggests
     devshell.url = "github:numtide/devshell";
     # allows filtering files from the sources, prevents rebuilts if, for example, the flake.nix changes
@@ -118,7 +119,7 @@
         # };
 
         # packages for devshell can be defined here
-        devshells.default = { packages = with pkgs; [ jq yq-go ]; };
+        devshells.default = { packages = with pkgs; [ jq yq-go gnumake ]; };
 
       };
 
